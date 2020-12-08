@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from ..database import Base
+from fastapi_demo.database import Base
 
 
 class Car(Base):
