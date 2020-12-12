@@ -1,6 +1,11 @@
 from typing import List
-from fastapi import FastAPI
+
+from fastapi import Depends, FastAPI
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+from .database import SessionLocal
+from .cars import repository
 
 title = 'FastAPI Demo'
 description = 'Simple API implementation usign FastAPI framework '
@@ -14,13 +19,21 @@ class Car(BaseModel):
     model: str
     year: int
 
+    class Config:
+        orm_mode = True
+
+
+def get_db():
+    db = SessionLocal()
+
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 @app.get('/cars/', response_model=List[Car])
-def list_cars():
-    cars = [
-        Car(make='Audi', model='A3', year=2005),
-        Car(make='Mercedes-Benz', model='E', year=2003),
-        Car(make='Tesla', model='Model S', year=2012),
-    ]
+def list_cars(db: Session = Depends(get_db)):
+    cars = repository.get_cars(db)
 
     return cars
