@@ -5,7 +5,7 @@ install-dependencies:
 	pip install -r requirements.txt
 
 migrate:
-	cd ./src && PYTHONPATH=. alembic upgrade head && cd -
+	PYTHONPATH=src alembic upgrade head
 
 runserver:
 	uvicorn src.fastapi_demo.main:app --reload
