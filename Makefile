@@ -8,6 +8,6 @@ migrate:
 	PYTHONPATH=src alembic upgrade head
 
 runserver:
-	uvicorn src.fastapi_demo.main:app --reload
+	PYTHONPATH=src uvicorn src.fastapi_demo.main:app --reload
 
 env-start: install-dependencies migrate runserver
