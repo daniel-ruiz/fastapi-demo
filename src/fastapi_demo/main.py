@@ -27,3 +27,10 @@ def list_cars(db: Session = Depends(get_db)):
     cars = repository.get_cars(db)
 
     return cars
+
+
+@app.post('/cars/', response_model=schemas.Car)
+def create_new_car(car_input: schemas.CarInput, db: Session = Depends(get_db)):
+    new_car = repository.create_car(db, car_input)
+
+    return new_car

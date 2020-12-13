@@ -9,3 +9,9 @@ class Car(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class CarInput(BaseModel):
+    make: str
+    model: str
+    year: int
