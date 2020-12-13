@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, status
 from sqlalchemy.orm import Session
 
 from .database import SessionLocal
@@ -29,7 +29,7 @@ def list_cars(db: Session = Depends(get_db)):
     return cars
 
 
-@app.post('/cars/', response_model=schemas.Car)
+@app.post('/cars/', response_model=schemas.Car, status_code=status.HTTP_201_CREATED)
 def create_new_car(car_input: schemas.CarInput, db: Session = Depends(get_db)):
     new_car = repository.create_car(db, car_input)
 
